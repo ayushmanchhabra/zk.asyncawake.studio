@@ -53,15 +53,18 @@ function App() {
     }
   }, [navigate, state]);
 
-  return (
+  return (window.innerHeight >= 500 && window.innerWidth >= 800 ? (
     <textarea
       className='h-full w-full'
       data-testid='textarea'
       onChange={handleStateChange}
       onKeyDown={handleSaveAction}
-      placeholder='Start here...'
+      placeholder='Type something, Ctrl+S, copy URL and share to someone.'
       value={state.content}
     />
+  ) : (
+    <>Tablets and mobile screens are not yet supported. Please use a laptop or desktop.</>
+  )
   )
 }
 
