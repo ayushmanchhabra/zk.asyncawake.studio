@@ -1,11 +1,65 @@
-import './App.css'
+import React from 'react';
+
+import './App.css';
+import { useNavigate, useParams } from 'react-router-dom';
+
+function encode(data: string) {
+  return window.btoa(data);
+}
+
+function decode(data: string) {
+  return window.atob(data);
+}
+
+function compress(data: string) {
+  return data;
+}
+
+function decompress(data: string) {
+  return data;
+}
 
 function App() {
 
+  const [state, setState] = React.useState<any>({ content: '' });
+
+  const { hash } = useParams();
+  const navigate = useNavigate();
+
+  React.useEffect(function () {
+    if (hash !== undefined) {
+      const decoded = decode(hash);
+      const decompressed = decompress(decoded);
+      const newState = JSON.parse(decompressed);
+      setState(newState);
+    }
+  }, [hash]);
+
+  const handleStateChange = React.useCallback(function (event: any) {
+    setState({ content: event.target.value });
+    
+  }, [state]);
+
+  const handleSaveAction = React.useCallback(function (event: any) {
+    if (event.ctrlKey && event.key === 's') {
+      event.preventDefault();
+      const stateString = JSON.stringify(state);
+      const compressed = compress(stateString);
+      const encoded = encode(compressed);
+      console.log(encoded)
+      navigate('/' + encoded);
+    }
+  }, [navigate, state]);
+
   return (
-    <div data-testid='coming-soon'>
-      Coming soon...
-    </div>
+    <textarea
+      className='h-full w-full'
+      data-testid='coming-soon'
+      onChange={handleStateChange}
+      onKeyDown={handleSaveAction}
+      placeholder='Start here...'
+      value={state.content}
+    />
   )
 }
 
