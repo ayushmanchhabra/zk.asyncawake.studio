@@ -48,7 +48,6 @@ function App() {
       const stateString = JSON.stringify(state);
       const compressed = compress(stateString);
       const encoded = encode(compressed);
-      console.log(encoded)
       navigate('/' + encoded);
     }
   }, [navigate, state]);
