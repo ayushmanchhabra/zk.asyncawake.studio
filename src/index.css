@@ -2,8 +2,19 @@
 @tailwind components;
 @tailwind utilities;
 
-#root {
-    max-width: max-content;
+body {
+    height: 99vh;
+    width: 100vw;
+}
 
-    padding: 0px;
+textarea {
+    padding-top: 10px;
+    padding-left: 10px;
+    resize: none;
+    outline: none;
+}
+
+#app {
+    height: 100%;
+    width: 100%;
 }

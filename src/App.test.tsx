@@ -14,7 +14,7 @@ describe("App", () => {
     });
 
     it("renders hello world text", () => {
-        expect(screen.getByTestId("coming-soon").textContent).toBe('Coming soon...');
+        expect(screen.getByTestId("textarea").ariaPlaceholder).toBe('Start here...');
     });
 
     afterEach(() => {

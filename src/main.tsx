@@ -5,7 +5,7 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import './index.css'
 import App from './App.tsx'
 
-function Main() {
+export function Main() {
   return (
     <Router>
       <Routes>
@@ -22,7 +22,7 @@ function Main() {
   );
 }
 
-createRoot(document.getElementById('root')!).render(
+createRoot(document.getElementById('app')!).render(
   <StrictMode>
     <Main />
   </StrictMode>,

@@ -18,10 +18,13 @@ function compress(data: string) {
 function decompress(data: string) {
   return data;
 }
+type AppSchema = {
+  content: string;
+};
 
 function App() {
 
-  const [state, setState] = React.useState<any>({ content: '' });
+  const [state, setState] = React.useState<AppSchema>({ content: '' });
 
   const { hash } = useParams();
   const navigate = useNavigate();
@@ -35,12 +38,11 @@ function App() {
     }
   }, [hash]);
 
-  const handleStateChange = React.useCallback(function (event: any) {
+  const handleStateChange = React.useCallback(function (event: React.ChangeEvent<HTMLTextAreaElement>) {
     setState({ content: event.target.value });
-    
-  }, [state]);
+  }, []);
 
-  const handleSaveAction = React.useCallback(function (event: any) {
+  const handleSaveAction = React.useCallback(function (event: React.KeyboardEvent<HTMLTextAreaElement>) {
     if (event.ctrlKey && event.key === 's') {
       event.preventDefault();
       const stateString = JSON.stringify(state);
@@ -54,7 +56,7 @@ function App() {
   return (
     <textarea
       className='h-full w-full'
-      data-testid='coming-soon'
+      data-testid='textarea'
       onChange={handleStateChange}
       onKeyDown={handleSaveAction}
       placeholder='Start here...'
