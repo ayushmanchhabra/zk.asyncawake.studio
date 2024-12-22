@@ -9,7 +9,6 @@ export default defineConfig({
   plugins: [react()],
   test: {
     coverage: {
-      include: ['./src/**/*.tsx'],
       provider: 'v8',
       reporter: ['json', 'json-summary'],
       reportOnFailure: true,
