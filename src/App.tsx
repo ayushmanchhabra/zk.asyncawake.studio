@@ -27,9 +27,21 @@ function App() {
 
   const [title, setTitle] = React.useState<string>('');
   const [content, setContent] = React.useState<string>('');
+  const [gitCommit, setGitCommit] = React.useState<string>('');
+  const [gitUrl, setGitUrl] = React.useState<string>('');
 
   const { hash } = useParams();
   const navigate = useNavigate();
+
+  React.useEffect(() => {
+    fetch('https://api.github.com/repos/ayushmanchhabra/sharelist.xyz/commits?per_page=1')
+      .then(res => res.json())
+      .then(json => {
+        setGitUrl(json[0].html_url)
+        setGitCommit(json[0].sha)
+      });
+    ;
+  }, []);
 
   React.useEffect(function () {
     if (hash !== undefined) {
@@ -52,34 +64,41 @@ function App() {
   const handleSaveAction = React.useCallback(function (event: React.KeyboardEvent<HTMLInputElement | HTMLTextAreaElement>) {
     if (event.ctrlKey && event.key === 's') {
       event.preventDefault();
-      const stateString = JSON.stringify({ title, content });
-      const compressed = compress(stateString);
-      const encoded = encode(compressed);
+      const encoded = save({ title, content })
       navigate('/' + encoded);
     }
   }, [navigate, title, content]);
 
-  return (window.innerHeight >= 500 && window.innerWidth >= 800 ? (
+  function save(data: AppSchema): string {
+    const stateString = JSON.stringify(data);
+    const compressed = compress(stateString);
+    const encoded = encode(compressed);
+    return encoded;
+  }
+
+  return (
     <>
       <input
         className='w-full'
         onChange={handleTitleChange}
         onKeyDown={handleSaveAction}
-        placeholder='Untitled'
+        placeholder='Share List'
         value={title}
       />
       <textarea
-        className='h-full w-full'
+        className='h-5/6 w-full'
         data-testid='textarea'
         onChange={handleContentChange}
         onKeyDown={handleSaveAction}
-        placeholder='Type something, press Ctrl+S, copy URL and share to someone.'
+        placeholder='Share arbitrary information without an intermediatary such as database. Type something, press Ctrl+S, copy URL and share to someone.'
         value={content}
       />
+      <span className='flex items-center justify-center'>
+        <a href="https://github.com/ayushmanchhabra/sharelist.xyz" rel="noopener noreferrer" target="_blank">About</a> |
+        <a href={gitUrl} rel="noopener noreferrer" target="_blank">{gitCommit.slice(0, 7)}</a> |
+        <a href="https://ayushmanchhabra.com" rel="noopener noreferrer" target="_blank">(c) Ayushman Chhabra</a>
+      </span>
     </>
-  ) : (
-    <>Tablets and mobile screens are not yet supported. Please use a laptop or desktop.</>
-  )
   )
 }
 
