@@ -82,6 +82,7 @@ function App() {
     <>
       <input
         className='w-full'
+        data-testid='title'
         onChange={handleTitleChange}
         onKeyDown={handleSaveAction}
         placeholder='Share List'
@@ -89,28 +90,33 @@ function App() {
       />
       <textarea
         className='h-5/6 w-full'
-        data-testid='textarea'
+        data-testid='content'
         onChange={handleContentChange}
         onKeyDown={handleSaveAction}
         placeholder='Share arbitrary information without an intermediatary such as database. Type something, press Ctrl+S, copy URL and share to someone.'
         value={content}
       />
-      <span className='flex items-center justify-center'>
+      <span
+        className='flex items-center justify-center'
+        data-testid='footer'
+      >
         <a href="https://github.com/ayushmanchhabra/sharelist.xyz" rel="noopener noreferrer" target="_blank">About</a> |
         <a href={gitUrl} rel="noopener noreferrer" target="_blank">{gitCommit.slice(0, 7)}</a> |
         <a href="https://ayushmanchhabra.com" rel="noopener noreferrer" target="_blank">(c) Ayushman Chhabra</a>
       </span>
-      <img
-        alt="Save Icon"
-        height={50}
+      <button
         onClick={() => {
-          const encoded = save({ title, content })
+          const encoded = save({ title, content });
           navigate('/' + encoded);
-        }
-        }
-        src={SaveIcon}
-        width={50}
-      />
+        }}
+      >
+        <img
+          alt="Save Icon"
+          height={50}
+          src={SaveIcon}
+          width={50}
+        />
+      </button>
     </>
   )
 }
