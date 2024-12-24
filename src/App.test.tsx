@@ -14,8 +14,10 @@ describe("App", () => {
         unMount = unmount;
     });
 
-    it("renders hello world text", () => {
-        expect(screen.getByTestId("textarea")).toBeInTheDocument();
+    it("renders the required components", () => {
+        expect(screen.getByTestId("title")).toBeInTheDocument();
+        expect(screen.getByTestId("content")).toBeInTheDocument();
+        expect(screen.getByTestId("footer")).toBeInTheDocument();
     });
 
     afterEach(() => {
