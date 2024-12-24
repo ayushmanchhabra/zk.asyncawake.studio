@@ -7,7 +7,7 @@ body {
     width: 100vw;
 }
 
-textarea {
+input, textarea {
     padding-top: 10px;
     padding-left: 10px;
     resize: none;

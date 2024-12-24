@@ -19,12 +19,14 @@ function decompress(data: string) {
   return data;
 }
 type AppSchema = {
+  title: string;
   content: string;
 };
 
 function App() {
 
-  const [state, setState] = React.useState<AppSchema>({ content: '' });
+  const [title, setTitle] = React.useState<string>('');
+  const [content, setContent] = React.useState<string>('');
 
   const { hash } = useParams();
   const navigate = useNavigate();
@@ -33,34 +35,48 @@ function App() {
     if (hash !== undefined) {
       const decoded = decode(hash);
       const decompressed = decompress(decoded);
-      const newState = JSON.parse(decompressed);
-      setState(newState);
+      const newState: AppSchema = JSON.parse(decompressed);
+      setTitle(newState.title);
+      setContent(newState.content);
     }
   }, [hash]);
 
-  const handleStateChange = React.useCallback(function (event: React.ChangeEvent<HTMLTextAreaElement>) {
-    setState({ content: event.target.value });
+  const handleTitleChange = React.useCallback(function (event: React.ChangeEvent<HTMLInputElement>) {
+    setTitle(event.target.value);
   }, []);
 
-  const handleSaveAction = React.useCallback(function (event: React.KeyboardEvent<HTMLTextAreaElement>) {
+  const handleContentChange = React.useCallback(function (event: React.ChangeEvent<HTMLTextAreaElement>) {
+    setContent(event.target.value);
+  }, []);
+
+  const handleSaveAction = React.useCallback(function (event: React.KeyboardEvent<HTMLInputElement | HTMLTextAreaElement>) {
     if (event.ctrlKey && event.key === 's') {
       event.preventDefault();
-      const stateString = JSON.stringify(state);
+      const stateString = JSON.stringify({ title, content });
       const compressed = compress(stateString);
       const encoded = encode(compressed);
       navigate('/' + encoded);
     }
-  }, [navigate, state]);
+  }, [navigate, title, content]);
 
   return (window.innerHeight >= 500 && window.innerWidth >= 800 ? (
-    <textarea
-      className='h-full w-full'
-      data-testid='textarea'
-      onChange={handleStateChange}
-      onKeyDown={handleSaveAction}
-      placeholder='Type something, Ctrl+S, copy URL and share to someone.'
-      value={state.content}
-    />
+    <>
+      <input
+        className='w-full'
+        onChange={handleTitleChange}
+        onKeyDown={handleSaveAction}
+        placeholder='Untitled'
+        value={title}
+      />
+      <textarea
+        className='h-full w-full'
+        data-testid='textarea'
+        onChange={handleContentChange}
+        onKeyDown={handleSaveAction}
+        placeholder='Type something, press Ctrl+S, copy URL and share to someone.'
+        value={content}
+      />
+    </>
   ) : (
     <>Tablets and mobile screens are not yet supported. Please use a laptop or desktop.</>
   )
