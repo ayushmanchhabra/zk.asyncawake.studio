@@ -3,6 +3,8 @@ import React from 'react';
 import './App.css';
 import { useNavigate, useParams } from 'react-router-dom';
 
+import SaveIcon from './save.jpg';
+
 function encode(data: string) {
   return window.btoa(data);
 }
@@ -98,6 +100,17 @@ function App() {
         <a href={gitUrl} rel="noopener noreferrer" target="_blank">{gitCommit.slice(0, 7)}</a> |
         <a href="https://ayushmanchhabra.com" rel="noopener noreferrer" target="_blank">(c) Ayushman Chhabra</a>
       </span>
+      <img
+        alt="Save Icon"
+        height={50}
+        onClick={() => {
+          const encoded = save({ title, content })
+          navigate('/' + encoded);
+        }
+        }
+        src={SaveIcon}
+        width={50}
+      />
     </>
   )
 }
