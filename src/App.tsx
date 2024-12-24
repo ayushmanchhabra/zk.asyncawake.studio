@@ -85,7 +85,7 @@ function App() {
         data-testid='title'
         onChange={handleTitleChange}
         onKeyDown={handleSaveAction}
-        placeholder='Share List'
+        placeholder='SHARE LIST'
         value={title}
       />
       <textarea
