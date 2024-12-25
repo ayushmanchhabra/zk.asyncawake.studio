@@ -99,7 +99,7 @@ function App() {
         <a href="https://ayushmanchhabra.com" rel="noopener noreferrer" target="_blank">(c) Ayushman Chhabra</a>
       </span>
       <button
-        className='absolute h-12 w-12 top-5 right-5'
+        className='absolute h-12 w-12 top-36 right-5'
         data-testid='save'
         onClick={() => {
           const encoded = save({ title, content });
@@ -114,12 +114,12 @@ function App() {
         />
       </button>
       <button
+        className='absolute h-12 w-12 top-52 right-5'
         data-testid='qr'
         onClick={handleQRVisibleChange}
       >
         <img
           alt="QR Icon"
-          className='absolute h-12 w-12 top-20 right-5'
           height={48}
           src={QRIcon}
           width={48}
