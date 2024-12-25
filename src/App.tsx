@@ -1,7 +1,9 @@
 import React from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
+import { QRCodeSVG as QR } from 'qrcode.react';
 
 import SaveIcon from './save.jpg';
+import QRIcon from './qr.png';
 
 function encode(data: string) {
   return window.btoa(data);
@@ -27,6 +29,7 @@ function App() {
 
   const [title, setTitle] = React.useState<string>('');
   const [content, setContent] = React.useState<string>('');
+  const [isQRVisible, setIsQRVisible] = React.useState<boolean>(true);
 
   const { hash } = useParams();
   const navigate = useNavigate();
@@ -56,6 +59,10 @@ function App() {
       navigate('/' + encoded);
     }
   }, [navigate, title, content]);
+
+  const handleQRVisibleChange = React.useCallback(function () {
+    setIsQRVisible(!isQRVisible);
+  }, [isQRVisible]);
 
   function save(data: AppSchema): string {
     const stateString = JSON.stringify(data);
@@ -91,6 +98,7 @@ function App() {
         <a href="https://ayushmanchhabra.com" rel="noopener noreferrer" target="_blank">(c) Ayushman Chhabra</a>
       </span>
       <button
+        className='absolute h-12 w-12 top-5 right-5'
         onClick={() => {
           const encoded = save({ title, content });
           navigate('/' + encoded);
@@ -98,11 +106,35 @@ function App() {
       >
         <img
           alt="Save Icon"
-          height={50}
+          height={48}
           src={SaveIcon}
-          width={50}
+          width={48}
         />
       </button>
+      <button
+        onClick={handleQRVisibleChange}
+      >
+        <img
+          alt="QR Icon"
+          className='absolute h-12 w-12 top-20 right-5'
+          height={48}
+          src={QRIcon}
+          width={48}
+        />
+      </button>
+      <div
+        className='h-full w-full flex flex-col items-center justify-center fixed top-0 left-0 z-2 bg-slate-100'
+        style={{ display: isQRVisible ? 'flex' : 'none' }}>
+        <QR
+          className='h-48 w-48'
+          value={window.location.href}
+        />
+        <span className='p-2'>Scan now to share!</span>
+        <button
+          className='p-2 border-2 border-slate-300 cursor-pointer'
+          onClick={handleQRVisibleChange}
+        >Close</button>
+      </div>
     </>
   )
 }
