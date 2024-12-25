@@ -86,6 +86,7 @@ function App() {
         onChange={handleTitleChange}
         onKeyDown={handleSaveAction}
         placeholder='SHARE LIST'
+        style={{ height: 50, fontSize: 24 }}
         value={title}
       />
       <textarea
