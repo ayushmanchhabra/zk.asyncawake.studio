@@ -1,7 +1,9 @@
 import React from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
+import { QRCodeSVG as QR } from 'qrcode.react';
 
 import SaveIcon from './save.jpg';
+import QRIcon from './qr.png';
 
 function encode(data: string) {
   return window.btoa(data);
@@ -27,21 +29,10 @@ function App() {
 
   const [title, setTitle] = React.useState<string>('');
   const [content, setContent] = React.useState<string>('');
-  const [gitCommit, setGitCommit] = React.useState<string>('');
-  const [gitUrl, setGitUrl] = React.useState<string>('');
+  const [isQRVisible, setIsQRVisible] = React.useState<boolean>(false);
 
   const { hash } = useParams();
   const navigate = useNavigate();
-
-  React.useEffect(() => {
-    fetch('https://api.github.com/repos/ayushmanchhabra/sharelist.xyz/commits?per_page=1')
-      .then(res => res.json())
-      .then(json => {
-        setGitUrl(json[0].html_url)
-        setGitCommit(json[0].sha)
-      });
-    ;
-  }, []);
 
   React.useEffect(function () {
     if (hash !== undefined) {
@@ -69,6 +60,10 @@ function App() {
     }
   }, [navigate, title, content]);
 
+  const handleQRVisibleChange = React.useCallback(function () {
+    setIsQRVisible(!isQRVisible);
+  }, [isQRVisible]);
+
   function save(data: AppSchema): string {
     const stateString = JSON.stringify(data);
     const compressed = compress(stateString);
@@ -88,11 +83,11 @@ function App() {
         value={title}
       />
       <textarea
-        className='h-5/6 w-full'
+        className='min-h-96 w-full'
         data-testid='content'
         onChange={handleContentChange}
         onKeyDown={handleSaveAction}
-        placeholder='Share arbitrary information without an intermediatary such as database. Type something, press Ctrl+S, copy URL and share to someone.'
+        placeholder='Share information without an intermediate data store. Type something, press Ctrl+S, copy URL and share to someone.'
         value={content}
       />
       <span
@@ -100,10 +95,12 @@ function App() {
         data-testid='footer'
       >
         <a href="https://github.com/ayushmanchhabra/sharelist.xyz" rel="noopener noreferrer" target="_blank">About</a> |
-        <a href={gitUrl} rel="noopener noreferrer" target="_blank">{gitCommit.slice(0, 7)}</a> |
+        <a href="https://github.com/ayushmanchhabra/sharelist.xyz/releases" rel="noopener noreferrer" target="_blank">Changelog</a> |
         <a href="https://ayushmanchhabra.com" rel="noopener noreferrer" target="_blank">(c) Ayushman Chhabra</a>
       </span>
       <button
+        className='absolute h-12 w-12 top-5 right-5'
+        data-testid='save'
         onClick={() => {
           const encoded = save({ title, content });
           navigate('/' + encoded);
@@ -111,11 +108,38 @@ function App() {
       >
         <img
           alt="Save Icon"
-          height={50}
+          height={48}
           src={SaveIcon}
-          width={50}
+          width={48}
         />
       </button>
+      <button
+        data-testid='qr'
+        onClick={handleQRVisibleChange}
+      >
+        <img
+          alt="QR Icon"
+          className='absolute h-12 w-12 top-20 right-5'
+          height={48}
+          src={QRIcon}
+          width={48}
+        />
+      </button>
+      <div
+        className='h-full w-full flex flex-col items-center justify-center fixed top-0 left-0 z-2 bg-slate-100'
+        data-testid='overlay'
+        style={{ display: isQRVisible ? 'flex' : 'none' }}
+      >
+        <QR
+          className='h-48 w-48'
+          value={window.location.href}
+        />
+        <span className='p-2'>Scan now to share!</span>
+        <button
+          className='p-2 border-2 border-slate-300 cursor-pointer'
+          onClick={handleQRVisibleChange}
+        >Close</button>
+      </div>
     </>
   )
 }
