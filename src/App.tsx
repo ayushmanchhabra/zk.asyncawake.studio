@@ -1,6 +1,4 @@
 import React from 'react';
-
-import './App.css';
 import { useNavigate, useParams } from 'react-router-dom';
 
 import SaveIcon from './save.jpg';
