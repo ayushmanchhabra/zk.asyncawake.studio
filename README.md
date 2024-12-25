@@ -15,7 +15,6 @@ Inspired by [How to store your app's entire state in the url](https://www.scotta
 - Move all styles to TailwindCSS.
 - Add QR code support (https://github.com/zpao/qrcode.react).
 - Add encryption and decryption support.
-- Add staging and prod publishing work flow.
 
 ## License
 
