@@ -27,21 +27,9 @@ function App() {
 
   const [title, setTitle] = React.useState<string>('');
   const [content, setContent] = React.useState<string>('');
-  const [gitCommit, setGitCommit] = React.useState<string>('');
-  const [gitUrl, setGitUrl] = React.useState<string>('');
 
   const { hash } = useParams();
   const navigate = useNavigate();
-
-  React.useEffect(() => {
-    fetch('https://api.github.com/repos/ayushmanchhabra/sharelist.xyz/commits?per_page=1')
-      .then(res => res.json())
-      .then(json => {
-        setGitUrl(json[0].html_url)
-        setGitCommit(json[0].sha)
-      });
-    ;
-  }, []);
 
   React.useEffect(function () {
     if (hash !== undefined) {
@@ -88,7 +76,7 @@ function App() {
         value={title}
       />
       <textarea
-        className='h-5/6 w-full'
+        className='min-h-96 w-full'
         data-testid='content'
         onChange={handleContentChange}
         onKeyDown={handleSaveAction}
@@ -100,7 +88,6 @@ function App() {
         data-testid='footer'
       >
         <a href="https://github.com/ayushmanchhabra/sharelist.xyz" rel="noopener noreferrer" target="_blank">About</a> |
-        <a href={gitUrl} rel="noopener noreferrer" target="_blank">{gitCommit.slice(0, 7)}</a> |
         <a href="https://ayushmanchhabra.com" rel="noopener noreferrer" target="_blank">(c) Ayushman Chhabra</a>
       </span>
       <button
