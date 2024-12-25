@@ -16,6 +16,7 @@ Inspired by [How to store your app's entire state in the url](https://www.scotta
 - Add QR code support (https://github.com/zpao/qrcode.react).
 - Add encryption and decryption support.
 - Improve code coverage.
+- Research on how to add more data formats without making too many changes to the interface.
 
 ## License
 

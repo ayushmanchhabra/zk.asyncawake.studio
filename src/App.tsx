@@ -87,7 +87,7 @@ function App() {
         data-testid='content'
         onChange={handleContentChange}
         onKeyDown={handleSaveAction}
-        placeholder='Share arbitrary information without an intermediatary such as database. Type something, press Ctrl+S, copy URL and share to someone.'
+        placeholder='Share information without an intermediate data store. Type something, press Ctrl+S, copy URL and share to someone.'
         value={content}
       />
       <span
