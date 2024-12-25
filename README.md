@@ -1,10 +1,11 @@
 # sharelist.xyz
 
-Share information without an intermediary.
+Share information without an intermediate data store.
 
 ## Design
 
-When sharing information over the internet, the sender sends the info to a server which caches it in a data store. It is then forwarded to the receiver. In `shareist.xyz`, the information is stored in a Base64 string in the URL itself. There are physical limits to how much data can be stored in the URL which is yet to be seen
+The application information written on the page is encoded in a Base64-encoded ASCII string and stored in the hash of the URL. On a page reload, the hash is decoded and the application information is placed as it was when initially written. There is a limitation to this approach: a finite amount of data can be stored in the URL's hash. I will update this document with benchmarks soon.
+
 
 ## References
 
@@ -13,7 +14,6 @@ Inspired by [How to store your app's entire state in the url](https://www.scotta
 ## Roadmap
 
 - Move all styles to TailwindCSS.
-- Add QR code support (https://github.com/zpao/qrcode.react).
 - Add encryption and decryption support.
 - Improve code coverage.
 - Research on how to add more data formats without making too many changes to the interface.
