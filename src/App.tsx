@@ -29,7 +29,7 @@ function App() {
 
   const [title, setTitle] = React.useState<string>('');
   const [content, setContent] = React.useState<string>('');
-  const [isQRVisible, setIsQRVisible] = React.useState<boolean>(true);
+  const [isQRVisible, setIsQRVisible] = React.useState<boolean>(false);
 
   const { hash } = useParams();
   const navigate = useNavigate();
