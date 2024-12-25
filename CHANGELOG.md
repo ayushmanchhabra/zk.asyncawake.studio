@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.3.1](https://github.com/ayushmanchhabra/sharelist.xyz/compare/v0.3.0...v0.3.1) (2024-12-25)
+
+
+### Bug Fixes
+
+* **ci:** create outputs.release_created ([e678b89](https://github.com/ayushmanchhabra/sharelist.xyz/commit/e678b89b7d7aefb4cfebb4fe981e12b8a1f27bb5))
+
 ## [0.3.0](https://github.com/ayushmanchhabra/sharelist.xyz/compare/v0.2.0...v0.3.0) (2024-12-25)
 
 
