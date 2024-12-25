@@ -1,7 +1,7 @@
 import React from 'react';
-
-import './App.css';
 import { useNavigate, useParams } from 'react-router-dom';
+
+import SaveIcon from './save.jpg';
 
 function encode(data: string) {
   return window.btoa(data);
@@ -19,51 +19,104 @@ function decompress(data: string) {
   return data;
 }
 type AppSchema = {
+  title: string;
   content: string;
 };
 
 function App() {
 
-  const [state, setState] = React.useState<AppSchema>({ content: '' });
+  const [title, setTitle] = React.useState<string>('');
+  const [content, setContent] = React.useState<string>('');
+  const [gitCommit, setGitCommit] = React.useState<string>('');
+  const [gitUrl, setGitUrl] = React.useState<string>('');
 
   const { hash } = useParams();
   const navigate = useNavigate();
+
+  React.useEffect(() => {
+    fetch('https://api.github.com/repos/ayushmanchhabra/sharelist.xyz/commits?per_page=1')
+      .then(res => res.json())
+      .then(json => {
+        setGitUrl(json[0].html_url)
+        setGitCommit(json[0].sha)
+      });
+    ;
+  }, []);
 
   React.useEffect(function () {
     if (hash !== undefined) {
       const decoded = decode(hash);
       const decompressed = decompress(decoded);
-      const newState = JSON.parse(decompressed);
-      setState(newState);
+      const newState: AppSchema = JSON.parse(decompressed);
+      setTitle(newState.title);
+      setContent(newState.content);
     }
   }, [hash]);
 
-  const handleStateChange = React.useCallback(function (event: React.ChangeEvent<HTMLTextAreaElement>) {
-    setState({ content: event.target.value });
+  const handleTitleChange = React.useCallback(function (event: React.ChangeEvent<HTMLInputElement>) {
+    setTitle(event.target.value);
   }, []);
 
-  const handleSaveAction = React.useCallback(function (event: React.KeyboardEvent<HTMLTextAreaElement>) {
+  const handleContentChange = React.useCallback(function (event: React.ChangeEvent<HTMLTextAreaElement>) {
+    setContent(event.target.value);
+  }, []);
+
+  const handleSaveAction = React.useCallback(function (event: React.KeyboardEvent<HTMLInputElement | HTMLTextAreaElement>) {
     if (event.ctrlKey && event.key === 's') {
       event.preventDefault();
-      const stateString = JSON.stringify(state);
-      const compressed = compress(stateString);
-      const encoded = encode(compressed);
+      const encoded = save({ title, content })
       navigate('/' + encoded);
     }
-  }, [navigate, state]);
+  }, [navigate, title, content]);
 
-  return (window.innerHeight >= 500 && window.innerWidth >= 800 ? (
-    <textarea
-      className='h-full w-full'
-      data-testid='textarea'
-      onChange={handleStateChange}
-      onKeyDown={handleSaveAction}
-      placeholder='Type something, Ctrl+S, copy URL and share to someone.'
-      value={state.content}
-    />
-  ) : (
-    <>Tablets and mobile screens are not yet supported. Please use a laptop or desktop.</>
-  )
+  function save(data: AppSchema): string {
+    const stateString = JSON.stringify(data);
+    const compressed = compress(stateString);
+    const encoded = encode(compressed);
+    return encoded;
+  }
+
+  return (
+    <>
+      <input
+        className='w-full'
+        data-testid='title'
+        onChange={handleTitleChange}
+        onKeyDown={handleSaveAction}
+        placeholder='SHARE LIST'
+        style={{ height: 50, fontSize: 24 }}
+        value={title}
+      />
+      <textarea
+        className='h-5/6 w-full'
+        data-testid='content'
+        onChange={handleContentChange}
+        onKeyDown={handleSaveAction}
+        placeholder='Share arbitrary information without an intermediatary such as database. Type something, press Ctrl+S, copy URL and share to someone.'
+        value={content}
+      />
+      <span
+        className='flex items-center justify-center'
+        data-testid='footer'
+      >
+        <a href="https://github.com/ayushmanchhabra/sharelist.xyz" rel="noopener noreferrer" target="_blank">About</a> |
+        <a href={gitUrl} rel="noopener noreferrer" target="_blank">{gitCommit.slice(0, 7)}</a> |
+        <a href="https://ayushmanchhabra.com" rel="noopener noreferrer" target="_blank">(c) Ayushman Chhabra</a>
+      </span>
+      <button
+        onClick={() => {
+          const encoded = save({ title, content });
+          navigate('/' + encoded);
+        }}
+      >
+        <img
+          alt="Save Icon"
+          height={50}
+          src={SaveIcon}
+          width={50}
+        />
+      </button>
+    </>
   )
 }
 

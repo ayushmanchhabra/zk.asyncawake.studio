@@ -3,13 +3,14 @@
 @tailwind utilities;
 
 body {
-    height: 99vh;
+    height: 100vh;
     width: 100vw;
 }
 
-textarea {
+input, textarea {
     padding-top: 10px;
     padding-left: 10px;
+    /* border-bottom: 1px solid lightgrey; */
     resize: none;
     outline: none;
 }
@@ -17,4 +18,29 @@ textarea {
 #app {
     height: 100%;
     width: 100%;
+}
+
+a {
+    padding: 10px;
+}
+
+a:hover {
+    color: grey;
+    text-decoration: underline;
+}
+
+img {
+    position: absolute;
+    right: 10px;
+    top: 10px;
+
+    padding: 7.5px;
+    border: 1px solid grey;
+    border-radius: 100%;
+    filter: opacity(0.45);
+}
+
+img:hover {
+    filter: opacity(1.0);
+    border: 2px solid black;
 }
