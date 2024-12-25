@@ -99,6 +99,7 @@ function App() {
       </span>
       <button
         className='absolute h-12 w-12 top-5 right-5'
+        data-testid='save'
         onClick={() => {
           const encoded = save({ title, content });
           navigate('/' + encoded);
@@ -112,6 +113,7 @@ function App() {
         />
       </button>
       <button
+        data-testid='qr'
         onClick={handleQRVisibleChange}
       >
         <img
@@ -124,7 +126,9 @@ function App() {
       </button>
       <div
         className='h-full w-full flex flex-col items-center justify-center fixed top-0 left-0 z-2 bg-slate-100'
-        style={{ display: isQRVisible ? 'flex' : 'none' }}>
+        data-testid='overlay'
+        style={{ display: isQRVisible ? 'flex' : 'none' }}
+      >
         <QR
           className='h-48 w-48'
           value={window.location.href}

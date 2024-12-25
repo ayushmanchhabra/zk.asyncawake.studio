@@ -18,6 +18,9 @@ describe("App", () => {
         expect(screen.getByTestId("title")).toBeInTheDocument();
         expect(screen.getByTestId("content")).toBeInTheDocument();
         expect(screen.getByTestId("footer")).toBeInTheDocument();
+        expect(screen.getByTestId("save")).toBeInTheDocument();
+        expect(screen.getByTestId("qr")).toBeInTheDocument();
+        expect(screen.getByTestId("overlay")).toBeInTheDocument();
     });
 
     afterEach(() => {
