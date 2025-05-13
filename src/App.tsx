@@ -94,8 +94,8 @@ function App() {
         className='flex items-center justify-center'
         data-testid='footer'
       >
-        <a href="https://github.com/ayushmanchhabra/sharelist.xyz" rel="noopener noreferrer" target="_blank">About</a> |
-        <a href="https://github.com/ayushmanchhabra/sharelist.xyz/releases" rel="noopener noreferrer" target="_blank">Changelog</a> |
+        <a href="https://github.com/ayushmanchhabra/zk.asyncawake.studio" rel="noopener noreferrer" target="_blank">About</a> |
+        <a href="https://github.com/ayushmanchhabra/zk.asyncawake.studio/releases" rel="noopener noreferrer" target="_blank">Changelog</a> |
         <a href="https://ayushmanchhabra.com" rel="noopener noreferrer" target="_blank">(c) Ayushman Chhabra</a>
       </span>
       <button

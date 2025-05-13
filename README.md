@@ -1,4 +1,4 @@
-# sharelist.xyz
+# zk.asyncawake.studio
 
 Share information without an intermediate data store.
 
