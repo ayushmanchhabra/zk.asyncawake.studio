@@ -1,24 +1,16 @@
+import { StyledEngineProvider } from "@mui/material";
 import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
-import { HashRouter as Router, Routes, Route } from 'react-router-dom';
 
-import './index.css'
 import App from './App.tsx'
+import './main.css'
 
-export function Main() {
+function Main() {
+
   return (
-    <Router>
-      <Routes>
-        <Route
-          element={<App />}
-          path='/'
-        />
-        <Route
-          element={<App />}
-          path='/:hash'
-        />
-      </Routes>
-    </Router>
+    <StyledEngineProvider injectFirst>
+      <App />
+    </StyledEngineProvider>
   );
 }
 
