@@ -1,6 +1,6 @@
-# sharelist.xyz
+# zk.asyncawake.studio
 
-Share information without an intermediate data store.
+Start your knowledge base right here in your browser.
 
 ## Design
 

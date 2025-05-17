@@ -78,7 +78,7 @@ function App() {
         data-testid='title'
         onChange={handleTitleChange}
         onKeyDown={handleSaveAction}
-        placeholder='SHARE LIST'
+        placeholder='zk'
         style={{ height: 50, fontSize: 24 }}
         value={title}
       />
@@ -87,15 +87,15 @@ function App() {
         data-testid='content'
         onChange={handleContentChange}
         onKeyDown={handleSaveAction}
-        placeholder='Share information without an intermediate data store. Type something, press Ctrl+S (or the top right icon if you are on mobile), copy URL and share to someone.'
+        placeholder='Start your knowledge base right here in your browser. Type something, press Ctrl+S (or the top right icon if you are on mobile), copy URL and share to someone.'
         value={content}
       />
       <span
         className='flex items-center justify-center'
         data-testid='footer'
       >
-        <a href="https://github.com/ayushmanchhabra/sharelist.xyz" rel="noopener noreferrer" target="_blank">About</a> |
-        <a href="https://github.com/ayushmanchhabra/sharelist.xyz/releases" rel="noopener noreferrer" target="_blank">Changelog</a> |
+        <a href="https://github.com/ayushmanchhabra/zk.asyncawake.studio" rel="noopener noreferrer" target="_blank">About</a> |
+        <a href="https://github.com/ayushmanchhabra/zk.asyncawake.studio/blob/main/CHANGELOG.md" rel="noopener noreferrer" target="_blank">Changelog</a> |
         <a href="https://ayushmanchhabra.com" rel="noopener noreferrer" target="_blank">(c) Ayushman Chhabra</a>
       </span>
       <button
