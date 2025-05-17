@@ -115,7 +115,7 @@ export default function Zettel() {
       >
         <Link href="https://github.com/ayushmanchhabra/zk.asyncawake.studio" rel="noopener noreferrer" target="_blank">About</Link> |
         <Link href="https://github.com/ayushmanchhabra/zk.asyncawake.studio/blob/main/CHANGELOG.md" rel="noopener noreferrer" target="_blank">Changelog</Link> |
-        <Link href="https://ayushmanchhabra.com" rel="noopener noreferrer" target="_blank">(c) Ayushman Chhabra</Link>
+        <Link href="https://asyncawake.studio" rel="noopener noreferrer" target="_blank">(c) Async Awake Studio</Link>
       </Typography>
       <Backdrop
         sx={(theme) => ({ color: '#fff', zIndex: theme.zIndex.drawer + 1 })}
