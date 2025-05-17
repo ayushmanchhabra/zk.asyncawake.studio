@@ -1,9 +1,10 @@
+import { Backdrop, Box, IconButton, Link, TextField, Typography } from '@mui/material';
+import { SaveAlt as SaveIcon, QrCodeScanner } from '@mui/icons-material';
 import React from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { QRCodeSVG as QR } from 'qrcode.react';
 
-import SaveIcon from './save.jpg';
-import QRIcon from './qr.png';
+import style from './Zettel.module.css';
 
 function encode(data: string) {
   return window.btoa(data);
@@ -52,7 +53,7 @@ export default function Zettel() {
     setContent(event.target.value);
   }, []);
 
-  const handleSaveAction = React.useCallback(function (event: React.KeyboardEvent<HTMLInputElement | HTMLTextAreaElement>) {
+  const handleSaveAction = React.useCallback(function (event: React.KeyboardEvent<HTMLDivElement>) {
     if (event.ctrlKey && event.key === 's') {
       event.preventDefault();
       const encoded = save({ title, content })
@@ -72,74 +73,65 @@ export default function Zettel() {
   }
 
   return (
-    <>
-      <input
-        className='w-full'
+    <Box className={style.Box}>
+      <TextField
+        className={style.Title}
         data-testid='title'
         onChange={handleTitleChange}
         onKeyDown={handleSaveAction}
         placeholder='zk'
-        style={{ height: 50, fontSize: 24 }}
         value={title}
       />
-      <textarea
-        className='min-h-96 w-full'
+      <Box>
+        <IconButton
+          className={style.Button}
+          data-testid='save'
+          onClick={() => {
+            const encoded = save({ title, content });
+            navigate('/' + encoded);
+          }}
+        >
+          <SaveIcon fontSize='large' />
+        </IconButton>
+        <IconButton
+          className={style.Button}
+          data-testid='qr'
+          onClick={handleQRVisibleChange}
+        >
+          <QrCodeScanner fontSize='large' />
+        </IconButton>
+      </Box>
+      <TextField
+        multiline
         data-testid='content'
         onChange={handleContentChange}
         onKeyDown={handleSaveAction}
         placeholder='Start your knowledge base right here in your browser. Type something, press Ctrl+S (or the top right icon if you are on mobile), copy URL and share to someone.'
         value={content}
       />
-      <span
-        className='flex items-center justify-center'
+      <Typography
+        className={style.Footer}
         data-testid='footer'
       >
-        <a href="https://github.com/ayushmanchhabra/zk.asyncawake.studio" rel="noopener noreferrer" target="_blank">About</a> |
-        <a href="https://github.com/ayushmanchhabra/zk.asyncawake.studio/blob/main/CHANGELOG.md" rel="noopener noreferrer" target="_blank">Changelog</a> |
-        <a href="https://ayushmanchhabra.com" rel="noopener noreferrer" target="_blank">(c) Ayushman Chhabra</a>
-      </span>
-      <button
-        className='absolute h-12 w-12 top-36 right-5'
-        data-testid='save'
-        onClick={() => {
-          const encoded = save({ title, content });
-          navigate('/' + encoded);
-        }}
-      >
-        <img
-          alt="Save Icon"
-          height={48}
-          src={SaveIcon}
-          width={48}
-        />
-      </button>
-      <button
-        className='absolute h-12 w-12 top-52 right-5'
-        data-testid='qr'
+        <Link href="https://github.com/ayushmanchhabra/zk.asyncawake.studio" rel="noopener noreferrer" target="_blank">About</Link> |
+        <Link href="https://github.com/ayushmanchhabra/zk.asyncawake.studio/blob/main/CHANGELOG.md" rel="noopener noreferrer" target="_blank">Changelog</Link> |
+        <Link href="https://ayushmanchhabra.com" rel="noopener noreferrer" target="_blank">(c) Ayushman Chhabra</Link>
+      </Typography>
+      <Backdrop
+        sx={(theme) => ({ color: '#fff', zIndex: theme.zIndex.drawer + 1 })}
+        className={style.Overlay}
+        data-testid='overlay'
+        open={isQRVisible}
         onClick={handleQRVisibleChange}
       >
-        <img
-          alt="QR Icon"
-          height={48}
-          src={QRIcon}
-          width={48}
-        />
-      </button>
-      <div
-        className='h-full w-full flex flex-col items-center justify-center fixed top-0 left-0 z-2 bg-slate-100'
-        data-testid='overlay'
-        style={{ display: isQRVisible ? 'flex' : 'none' }}
-      >
         <QR
-          className='h-48 w-48'
+          bgColor='grey'
+          fgColor='#000'
+          marginSize={2}
           value={window.location.href}
         />
-        <span className='p-2'>Scan now to share!</span>
-        <button
-          className='p-2 border-2 border-slate-300 cursor-pointer'
-          onClick={handleQRVisibleChange}
-        >Close</button>
-      </div>
-    </>
+        <Typography>Scan now to share!</Typography>
+      </Backdrop>
+    </Box>
   )
 }
