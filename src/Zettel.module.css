@@ -1,0 +1,32 @@
+.Box {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.Title {
+    font-size: 1.5em;
+    font-weight: bold;
+}
+
+.Footer {
+    font-size: 0.8em;
+    color: gray;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+}
+
+.Button { 
+    height: 50px;
+    width: 50px;   
+}
+.Overlay {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 20px;
+}
