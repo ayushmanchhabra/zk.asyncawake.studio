@@ -1,4 +1,4 @@
-import { Backdrop, Box, IconButton, Link, TextField, Typography } from '@mui/material';
+import { Backdrop, Box, IconButton, Link, TextField, Tooltip, Typography } from '@mui/material';
 import { SaveAlt as SaveIcon, QrCodeScanner } from '@mui/icons-material';
 import React from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
@@ -68,24 +68,30 @@ export default function Zettel() {
   return (
     <Box className={style.Box}>
       <Box className={style.Header}>
-        <Typography className={style.Title}>[zk]</Typography>
-        <IconButton
-          className={style.Button}
-          data-testid='save'
-          onClick={() => {
-            const encoded = save({ content });
-            navigate('/' + encoded);
-          }}
-        >
-          <SaveIcon fontSize='large' />
-        </IconButton>
-        <IconButton
-          className={style.Button}
-          data-testid='qr'
-          onClick={handleQRVisibleChange}
-        >
-          <QrCodeScanner fontSize='large' />
-        </IconButton>
+        <Tooltip title='Just another zettelkasten'>
+          <Typography className={style.Title}>[zk]</Typography>
+        </Tooltip>
+        <Tooltip title='Save'>
+          <IconButton
+            className={style.Button}
+            data-testid='save'
+            onClick={() => {
+              const encoded = save({ content });
+              navigate('/' + encoded);
+            }}
+          >
+            <SaveIcon fontSize='large' />
+          </IconButton>
+        </Tooltip>
+        <Tooltip title='Generate QR Code'>
+          <IconButton
+            className={style.Button}
+            data-testid='qr'
+            onClick={handleQRVisibleChange}
+          >
+            <QrCodeScanner fontSize='large' />
+          </IconButton>
+        </Tooltip>
       </Box>
       <TextField
         multiline
