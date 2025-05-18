@@ -68,8 +68,17 @@ export default function Zettel() {
   return (
     <Box className={style.Box}>
       <Box className={style.Header}>
-        <Tooltip title='Just another zettelkasten'>
+        <Tooltip sx={{position: 'absolute', left: 10 }} title='Just another zettelkasten'>
           <Typography className={style.Title}>[zk]</Typography>
+        </Tooltip>
+        <Tooltip title='Generate QR Code'>
+          <IconButton
+            className={style.Button}
+            data-testid='qr'
+            onClick={handleQRVisibleChange}
+          >
+            <QrCodeScanner fontSize='large' />
+          </IconButton>
         </Tooltip>
         <Tooltip title='Save'>
           <IconButton
@@ -81,15 +90,6 @@ export default function Zettel() {
             }}
           >
             <SaveIcon fontSize='large' />
-          </IconButton>
-        </Tooltip>
-        <Tooltip title='Generate QR Code'>
-          <IconButton
-            className={style.Button}
-            data-testid='qr'
-            onClick={handleQRVisibleChange}
-          >
-            <QrCodeScanner fontSize='large' />
           </IconButton>
         </Tooltip>
       </Box>
