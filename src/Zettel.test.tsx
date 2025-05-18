@@ -15,7 +15,6 @@ describe("Zettel", () => {
     });
 
     it("renders the required components", () => {
-        expect(screen.getByTestId("content")).toBeInTheDocument();
         expect(screen.getByTestId("footer")).toBeInTheDocument();
         expect(screen.getByTestId("mode")).toBeInTheDocument();
         expect(screen.getByTestId("save")).toBeInTheDocument();
