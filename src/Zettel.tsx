@@ -122,11 +122,11 @@ export default function Zettel() {
               },
             },
           }}
-          placeholder='Start your knowledge base right here in your browser. Press the Edit icon (or middle icon on top right) type something, press Ctrl+S (right icon on top right if on mobile), copy URL and share to someone.'
+          placeholder='Start your knowledge base from your browser.. Press the Edit icon (or middle icon on top right) type something, press Ctrl+S (right icon on top right if on mobile), copy URL and share to someone.'
           value={content}
         />
       ) : (
-        <Markdown>{content === "" ? 'Start your knowledge base right here in your browser. Press the Edit icon (or middle icon on top right) type something, press Ctrl+S (right icon on top right if on mobile), copy URL and share to someone.' : content}</Markdown>
+        <Markdown>{content === "" ? 'Start your knowledge base from your browser.. Press the Edit icon (or middle icon on top right) type something, press Ctrl+S (right icon on top right if on mobile), copy URL and share to someone.' : content}</Markdown>
       )}
 
       <Typography
