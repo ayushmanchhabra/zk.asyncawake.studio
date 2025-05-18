@@ -1,4 +1,4 @@
-import { Backdrop, Box, IconButton, Link, TextField, Typography } from '@mui/material';
+import { Backdrop, Box, IconButton, Link, TextField, Tooltip, Typography } from '@mui/material';
 import { SaveAlt as SaveIcon, QrCodeScanner } from '@mui/icons-material';
 import React from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
@@ -22,13 +22,11 @@ function decompress(data: string) {
   return data;
 }
 type AppSchema = {
-  title: string;
   content: string;
 };
 
 export default function Zettel() {
 
-  const [title, setTitle] = React.useState<string>('');
   const [content, setContent] = React.useState<string>('');
   const [isQRVisible, setIsQRVisible] = React.useState<boolean>(false);
 
@@ -40,14 +38,9 @@ export default function Zettel() {
       const decoded = decode(hash);
       const decompressed = decompress(decoded);
       const newState: AppSchema = JSON.parse(decompressed);
-      setTitle(newState.title);
       setContent(newState.content);
     }
   }, [hash]);
-
-  const handleTitleChange = React.useCallback(function (event: React.ChangeEvent<HTMLInputElement>) {
-    setTitle(event.target.value);
-  }, []);
 
   const handleContentChange = React.useCallback(function (event: React.ChangeEvent<HTMLTextAreaElement>) {
     setContent(event.target.value);
@@ -56,10 +49,10 @@ export default function Zettel() {
   const handleSaveAction = React.useCallback(function (event: React.KeyboardEvent<HTMLDivElement>) {
     if (event.ctrlKey && event.key === 's') {
       event.preventDefault();
-      const encoded = save({ title, content })
+      const encoded = save({ content })
       navigate('/' + encoded);
     }
-  }, [navigate, title, content]);
+  }, [navigate, content]);
 
   const handleQRVisibleChange = React.useCallback(function () {
     setIsQRVisible(!isQRVisible);
@@ -74,40 +67,48 @@ export default function Zettel() {
 
   return (
     <Box className={style.Box}>
-      <TextField
-        className={style.Title}
-        data-testid='title'
-        onChange={handleTitleChange}
-        onKeyDown={handleSaveAction}
-        placeholder='zk'
-        value={title}
-      />
-      <Box>
-        <IconButton
-          className={style.Button}
-          data-testid='save'
-          onClick={() => {
-            const encoded = save({ title, content });
-            navigate('/' + encoded);
-          }}
-        >
-          <SaveIcon fontSize='large' />
-        </IconButton>
-        <IconButton
-          className={style.Button}
-          data-testid='qr'
-          onClick={handleQRVisibleChange}
-        >
-          <QrCodeScanner fontSize='large' />
-        </IconButton>
+      <Box className={style.Header}>
+        <Tooltip sx={{position: 'absolute', left: 10 }} title='Just another zettelkasten'>
+          <Typography className={style.Title}>[zk]</Typography>
+        </Tooltip>
+        <Tooltip title='Generate QR Code'>
+          <IconButton
+            className={style.Button}
+            data-testid='qr'
+            onClick={handleQRVisibleChange}
+          >
+            <QrCodeScanner fontSize='large' />
+          </IconButton>
+        </Tooltip>
+        <Tooltip title='Save'>
+          <IconButton
+            className={style.Button}
+            data-testid='save'
+            onClick={() => {
+              const encoded = save({ content });
+              navigate('/' + encoded);
+            }}
+          >
+            <SaveIcon fontSize='large' />
+          </IconButton>
+        </Tooltip>
       </Box>
       <TextField
         multiline
         data-testid='content'
         onChange={handleContentChange}
         onKeyDown={handleSaveAction}
+        sx={{
+          '& .MuiOutlinedInput-root': {
+            '& fieldset': {
+              border: '0px',
+              padding: '0px',
+            },
+          },
+        }}
         placeholder='Start your knowledge base right here in your browser. Type something, press Ctrl+S (or the top right icon if you are on mobile), copy URL and share to someone.'
         value={content}
+
       />
       <Typography
         className={style.Footer}
