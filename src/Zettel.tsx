@@ -1,6 +1,7 @@
 import { Backdrop, Box, IconButton, Link, TextField, Tooltip, Typography } from '@mui/material';
-import { SaveAlt as SaveIcon, QrCodeScanner } from '@mui/icons-material';
+import { ModeEdit as EditModeIcon, Preview as PreviewModeIcon, SaveAlt as SaveIcon, QrCodeScanner } from '@mui/icons-material';
 import React from 'react';
+import Markdown from 'react-markdown';
 import { useNavigate, useParams } from 'react-router-dom';
 import { QRCodeSVG as QR } from 'qrcode.react';
 
@@ -29,6 +30,7 @@ export default function Zettel() {
 
   const [content, setContent] = React.useState<string>('');
   const [isQRVisible, setIsQRVisible] = React.useState<boolean>(false);
+  const [mode, setMode] = React.useState<'Edit' | 'Preview'>('Preview');
 
   const { hash } = useParams();
   const navigate = useNavigate();
@@ -54,6 +56,10 @@ export default function Zettel() {
     }
   }, [navigate, content]);
 
+  const handleModeChange = React.useCallback(function () {
+    setMode(mode === 'Edit' ? 'Preview' : 'Edit');
+  }, [mode]);
+
   const handleQRVisibleChange = React.useCallback(function () {
     setIsQRVisible(!isQRVisible);
   }, [isQRVisible]);
@@ -68,7 +74,7 @@ export default function Zettel() {
   return (
     <Box className={style.Box}>
       <Box className={style.Header}>
-        <Tooltip sx={{position: 'absolute', left: 10 }} title='Just another zettelkasten'>
+        <Tooltip sx={{ position: 'absolute', left: 10 }} title='Just another zettelkasten'>
           <Typography className={style.Title}>[zk]</Typography>
         </Tooltip>
         <Tooltip title='Generate QR Code'>
@@ -78,6 +84,15 @@ export default function Zettel() {
             onClick={handleQRVisibleChange}
           >
             <QrCodeScanner fontSize='large' />
+          </IconButton>
+        </Tooltip>
+        <Tooltip title={mode === 'Edit' ? 'Preview' : 'Edit'}>
+          <IconButton
+            className={style.Button}
+            data-testid='mode'
+            onClick={handleModeChange}
+          >
+            {mode === 'Edit' ? <PreviewModeIcon fontSize='large' /> : <EditModeIcon fontSize='large' />}
           </IconButton>
         </Tooltip>
         <Tooltip title='Save'>
@@ -93,23 +108,27 @@ export default function Zettel() {
           </IconButton>
         </Tooltip>
       </Box>
-      <TextField
-        multiline
-        data-testid='content'
-        onChange={handleContentChange}
-        onKeyDown={handleSaveAction}
-        sx={{
-          '& .MuiOutlinedInput-root': {
-            '& fieldset': {
-              border: '0px',
-              padding: '0px',
+      {mode === 'Edit' ? (
+        <TextField
+          multiline
+          data-testid='content'
+          onChange={handleContentChange}
+          onKeyDown={handleSaveAction}
+          sx={{
+            '& .MuiOutlinedInput-root': {
+              '& fieldset': {
+                border: '0px',
+                padding: '0px',
+              },
             },
-          },
-        }}
-        placeholder='Start your knowledge base right here in your browser. Type something, press Ctrl+S (or the top right icon if you are on mobile), copy URL and share to someone.'
-        value={content}
+          }}
+          placeholder='Start your knowledge base right here in your browser. Press the Edit icon (or middle icon on top right) type something, press Ctrl+S (right icon on top right if on mobile), copy URL and share to someone.'
+          value={content}
+        />
+      ) : (
+        <Markdown>{content === "" ? 'Start your knowledge base right here in your browser. Press the Edit icon (or middle icon on top right) type something, press Ctrl+S (right icon on top right if on mobile), copy URL and share to someone.' : content}</Markdown>
+      )}
 
-      />
       <Typography
         className={style.Footer}
         data-testid='footer'
