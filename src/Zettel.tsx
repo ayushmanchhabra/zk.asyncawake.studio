@@ -98,8 +98,17 @@ export default function Zettel() {
         data-testid='content'
         onChange={handleContentChange}
         onKeyDown={handleSaveAction}
+        sx={{
+          '& .MuiOutlinedInput-root': {
+            '& fieldset': {
+              border: '0px',
+              padding: '0px',
+            },
+          },
+        }}
         placeholder='Start your knowledge base right here in your browser. Type something, press Ctrl+S (or the top right icon if you are on mobile), copy URL and share to someone.'
         value={content}
+
       />
       <Typography
         className={style.Footer}
