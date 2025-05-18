@@ -22,13 +22,11 @@ function decompress(data: string) {
   return data;
 }
 type AppSchema = {
-  title: string;
   content: string;
 };
 
 export default function Zettel() {
 
-  const [title, setTitle] = React.useState<string>('');
   const [content, setContent] = React.useState<string>('');
   const [isQRVisible, setIsQRVisible] = React.useState<boolean>(false);
 
@@ -40,14 +38,9 @@ export default function Zettel() {
       const decoded = decode(hash);
       const decompressed = decompress(decoded);
       const newState: AppSchema = JSON.parse(decompressed);
-      setTitle(newState.title);
       setContent(newState.content);
     }
   }, [hash]);
-
-  const handleTitleChange = React.useCallback(function (event: React.ChangeEvent<HTMLInputElement>) {
-    setTitle(event.target.value);
-  }, []);
 
   const handleContentChange = React.useCallback(function (event: React.ChangeEvent<HTMLTextAreaElement>) {
     setContent(event.target.value);
@@ -56,10 +49,10 @@ export default function Zettel() {
   const handleSaveAction = React.useCallback(function (event: React.KeyboardEvent<HTMLDivElement>) {
     if (event.ctrlKey && event.key === 's') {
       event.preventDefault();
-      const encoded = save({ title, content })
+      const encoded = save({ content })
       navigate('/' + encoded);
     }
-  }, [navigate, title, content]);
+  }, [navigate, content]);
 
   const handleQRVisibleChange = React.useCallback(function () {
     setIsQRVisible(!isQRVisible);
@@ -74,20 +67,13 @@ export default function Zettel() {
 
   return (
     <Box className={style.Box}>
-      <TextField
-        className={style.Title}
-        data-testid='title'
-        onChange={handleTitleChange}
-        onKeyDown={handleSaveAction}
-        placeholder='zk'
-        value={title}
-      />
-      <Box>
+      <Box className={style.Header}>
+        <Typography className={style.Title}>[zk]</Typography>
         <IconButton
           className={style.Button}
           data-testid='save'
           onClick={() => {
-            const encoded = save({ title, content });
+            const encoded = save({ content });
             navigate('/' + encoded);
           }}
         >

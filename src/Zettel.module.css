@@ -7,6 +7,16 @@
 .Title {
     font-size: 1.5em;
     font-weight: bold;
+    width: fit-content;
+
+    color: gray;
+}
+
+.Header {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    gap:10px;
 }
 
 .Footer {
